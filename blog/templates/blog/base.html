@@ -1,0 +1,183 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="{% static 'blog/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'blog/css/font-awesome.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'blog/main.css' %}">
+
+    {% if title %}
+        <title>HorlCode Blog - {{ title }}</title>
+    {% else %}
+        <title>Horla Blog Contents</title>
+    {% endif %}
+</head>
+<body>
+    <header class="site-header">
+      <nav class="navbar navbar-expand-md navbar-dark bg-steel fixed-top">
+        <div class="container">
+          <a class="navbar-brand mr-4" href="{% url 'blog-home' %}">HorlaCode<i>Blog</i></a>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle" aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse justify-content-end" id="navbarToggle">
+            <ul class="navbar-nav">
+                <li><a class="nav-item nav-link" href="{% url 'blog-home' %}">Home</a></li>
+                <li><a class="nav-item nav-link" href="{% url 'blog-about' %}">About</a></li>
+                <li><a class="nav-item nav-link" href="{% url 'blog-faq' %}">Faq</a></li>
+
+              {% if user.is_authenticated %}
+                  <li><a class="nav-item nav-link" href="{% url 'post-create' %}">New Post</a></li>
+                  <li><a class="nav-item nav-link" href="{% url 'profile' %}">Profile</a></li>
+                  <li><a class="nav-item nav-link" href="{% url 'logout' %}">Logout</a></li>
+              {% else %}
+                  <li><a class="nav-item nav-link" href="{% url 'login' %}">Login</a></li>
+                  <li><a class="nav-item nav-link" href="{% url 'register' %}">Register</a></li>
+              {% endif %}
+            </ul>
+          </div>
+        </div>
+      </nav>
+    </header>
+    <!--the main container-->
+    <!--tooltips to be added later when hosted finish-->
+    <main role="main" class="container">
+      <div class="row">
+        <div class="col-md-3">
+
+            <!--the search button can be placed here as well-->
+          <div class="cus">
+              <h3 class="h6">Search the blog</h3>
+            <form action="#" class="form-inline">
+              <div class="form-group">
+                <input type="search" name="q" placeholder="search for post..">
+                <button type="submit" class="submit"><i class="fas fa-search"></i></button>
+              </div>
+            </form>
+          </div>
+          <div class="content-section">
+            <h3>Easy<i>Navigate</i></h3>
+            <div class='text-muted'>The links provide swifts navigation
+              <ul class="list-group mb-3">
+                <li class="list-group-item list-group-item-light">
+                    <a class="#" href="#">Post Archives</a></li>
+                <li class="list-group-item list-group-item-light">
+                    <a class="#" href="#">Recent Post</a></li>
+                <li class="list-group-item list-group-item-light">
+                    <a class="#" href="#">Announcements</a></li>
+                <li class="list-group-item list-group-item-light">
+                    <a class="#" href="#">Guide</a></li>
+                <li class="list-group-item list-group-item-light">
+                    <a class="#" href="#">View Tags</a></li>
+              </ul>
+            </div>
+          </div>
+            <!---the javascript game will be placed here this also assumes md-4-->
+
+        </div>
+      <!---
+
+                  <div class="alert { message.tags }} alert-dismissible" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                    { message }}
+                  </div>
+               -->
+        <div class="col-md-6">
+          {% if messages %}
+            {% for message in messages %}
+              <div class="alert alert-{{ message.tags }}">
+                {{ message }}
+              </div>
+            {% endfor %}
+          {% endif %}
+          {% block content %}
+              <!--the contents hare placed here...-->
+          {% endblock %}
+        </div>
+        <div class="col-md-3">
+            <!--the javascript weight converter placement-->
+            <div class="card">
+                <div class="card-header"><span>A Weight <i>Utility</i>..</span></div>
+                <div class="card-body">
+
+                <!--Form to accept the input.-->
+                    <form>
+                      <div>
+                        <input id="IbsInput" type="number" class="form-control form-control-md"
+                          placeholder="Enter your weight">
+                      </div>
+                    </form>
+                    <!--End of FORM-->
+                    <!--cards for displaying the result of the conversion. -->
+                    <div id="output">
+                        <div class="card bg-primary mt-2 mb-2">
+                          <div class="card-block p-1 ml-2">
+                            <h4>Grams:</h4>
+                            <div id="gramsOutput"></div>
+                          </div>
+                        </div>
+                     <!--2nd card displaying kilograms results-->
+                        <div class="card bg-success mb-2">
+                          <div class="card-block p-1 ml-2">
+                            <h4>Kilograms:</h4>
+                            <div id="kgOutput"></div>
+                          </div>
+                        </div>
+                     <!--3rd card displaying kilograms results-->
+                        <div class="card bg-danger mb-1">
+                          <div class="card-block p-1 ml-2">
+                            <h4>Ounces:</h4>
+                            <div id="ozOutput"></div>
+                          </div>
+                        </div><!--end of result cards. -->
+                    </div><!--the end of output divs-->
+
+            <!--inner Script used for calculating the converter-->
+              <script>
+                  document.getElementById('output').style.visibility='hidden';
+                  //the visibility of the outputs is hidden at first later make it visible
+                  // immediately there is data input
+                  document.getElementById('IbsInput').addEventListener('input', function(e)
+                  {
+                    document.getElementById('output').style.visibility='visible';
+                    let lbs = e.target.value;
+                    document.getElementById('gramsOutput').innerHTML= lbs/0.0022046 + " " + "g";
+                    document.getElementById('kgOutput').innerHTML= lbs/2.2046 + " " + "kg";
+                    document.getElementById('ozOutput').innerHTML= lbs*16 + " " + "ounce";
+                  });
+              </script>
+                </div>
+            </div>
+        </div>
+      </div>
+    </main>
+    <footer class="footer" style="background-color: #5f788a;
+                           color: #cbd5db;
+                           margin-top: 200px;
+                           padding: 30px">
+        <div class="container">
+            <!--icons to be added later for more user-experience-->
+             <p class="text-center">&copy; copyright 2020; All rights reserved..Powered by HorlaCode Team<br>
+             We are at your service <i>07037347461</i><br>
+             Email us: olasunkanmiadu33@gmail.com</p>
+        </div>
+    </footer>
+
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="{% static 'blog/js/jquery.min.js' %}"></script>
+	<script src="{% static 'blog/js/bootstrap.bundle.js' %}"></script>
+	<script src="{% static 'blog/js/bootstrap.bundle.min.js' %}"></script>
+    <script src="{% static 'blog/js/fontawesome-all.js' %}"></script>
+	<script src="{% static 'blog/js/bootstrap.min.js' %}"></script>
+</body>
+</html>

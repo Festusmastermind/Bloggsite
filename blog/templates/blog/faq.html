@@ -1,0 +1,37 @@
+{% extends "blog/base.html" %}
+{% block content %}
+    <!--The Questions and Answers accordion class start here ...--->
+    <h4>Common Questions and Answers</h4>
+    <p class="font-weight-bold">Explore</p>
+
+    <!--Accordion wrapper-->
+    <div class="accordion md-accordion" id="accordionEx" role="tablist" aria-multiselectable="true">
+
+      <!-- Accordion card -->
+      <div class="card">
+        <!-- Card header -->
+        <div class="card-header" role="tab" id="headingThree3">
+          <a class="collapsed" data-toggle="collapse" data-parent="#accordionEx" href="#collapseThree3"
+            aria-expanded="false" aria-controls="collapseThree3">
+            <h5 class="mb-0">How do i create an account <i class="fas fa-angle-down rotate-icon"></i>
+            </h5>
+          </a>
+        </div>
+
+        <!-- Card body -->
+        <div id="collapseThree3" class="collapse" role="tabpanel" aria-labelledby="headingThree3"
+          data-parent="#accordionEx">
+          <div class="card-body">
+            <!--The answers are here-->
+              <p class="#">This is the very step if you are new to our simple and effective web site
+              click the register button and fill in the appropriate fields..</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+<!-- Accordion wrapper -->
+
+
+
+{% endblock %}
